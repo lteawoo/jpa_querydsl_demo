@@ -19,6 +19,21 @@ public class CustomerService {
         return customerRepository.findAll().stream().map(CustomerResponse::entityToDto).collect(Collectors.toList());
     }
 
+    public List<CustomerResponse> getAllByMethodNames(CustomerRequest customerRequest) {
+        return customerRepository.findByNameContainingIgnoreCaseAndAgeGreaterThanEqual(customerRequest.getName(), customerRequest.getAge())
+                .stream().map(CustomerResponse::entityToDto).collect(Collectors.toList());
+    }
+
+    public List<CustomerResponse> getAllByJpql(CustomerRequest customerRequest) {
+        return customerRepository.findWithJpql(customerRequest.getName(), customerRequest.getAge())
+                .stream().map(CustomerResponse::entityToDto).collect(Collectors.toList());
+    }
+
+    public List<CustomerResponse> getAllByQuerydsl(CustomerRequest customerRequest) {
+        return customerRepository.findWithQuerydsl(customerRequest)
+                .stream().map(CustomerResponse::entityToDto).collect(Collectors.toList());
+    }
+
     public CustomerResponse create(CustomerRequest customerRequest) {
         return CustomerResponse.entityToDto(customerRepository.save(CustomerEntity.builder()
                 .name(customerRequest.getName())

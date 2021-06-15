@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,21 @@ public class CustomerController {
     @GetMapping
     public List<CustomerResponse> getAll() {
         return customerService.getAll();
+    }
+
+    @GetMapping("/method-names")
+    public List<CustomerResponse> getAllByMethodNames(CustomerRequest customerRequest) {
+        return customerService.getAllByMethodNames(customerRequest);
+    }
+
+    @GetMapping("/jpql")
+    public List<CustomerResponse> getAllByJpql(CustomerRequest customerRequest) {
+        return customerService.getAllByJpql(customerRequest);
+    }
+
+    @GetMapping("/querydsl")
+    public List<CustomerResponse> getAllByQuerydsl(CustomerRequest customerRequest) {
+        return customerService.getAllByQuerydsl(customerRequest);
     }
 
     @PostMapping
