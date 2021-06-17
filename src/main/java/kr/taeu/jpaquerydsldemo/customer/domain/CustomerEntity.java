@@ -46,7 +46,6 @@ public class CustomerEntity {
         if (!ObjectUtils.isEmpty(age)) {
             this.age = age;
         }
-
         return this;
     }
 }
