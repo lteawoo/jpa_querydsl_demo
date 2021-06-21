@@ -4,8 +4,11 @@ import static kr.taeu.jpaquerydsldemo.customer.domain.QCustomerEntity.customerEn
 import static kr.taeu.jpaquerydsldemo.order.domain.QOrderEntity.orderEntity;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.taeu.jpaquerydsldemo.customer.domain.CustomerEntity;
+import kr.taeu.jpaquerydsldemo.customer.dto.CustomerResponse;
 import kr.taeu.jpaquerydsldemo.customer.repository.CustomerRepository;
 import kr.taeu.jpaquerydsldemo.order.domain.OrderEntity;
 import kr.taeu.jpaquerydsldemo.order.repository.OrderRepository;
@@ -253,5 +256,46 @@ public class CustomerTest {
         pagingList.getOffset();
         pagingList.getTotal();
         pagingList.getResults();
+    }
+
+    @Test
+    public void tuple() {
+        List<Tuple> result = jpaQueryFactory
+                .select(customerEntity.name,
+                        customerEntity.age)
+                .from(customerEntity)
+                .fetch();
+
+        Tuple lee = result.get(0);
+        Assertions.assertEquals("lee", lee.get(customerEntity.name));
+    }
+
+    @Test
+    public void setter() {
+        List<CustomerResponse> result = jpaQueryFactory
+                .select(Projections.bean(
+                        CustomerResponse.class,
+                        customerEntity.name,
+                        customerEntity.age))
+                .from(customerEntity)
+                .fetch();
+
+        CustomerResponse lee = result.get(0);
+        Assertions.assertEquals("lee", lee.getName());
+    }
+
+
+    @Test
+    public void field() {
+        List<CustomerResponse> result = jpaQueryFactory
+                .select(Projections.fields(
+                        CustomerResponse.class,
+                        customerEntity.name,
+                        customerEntity.age))
+                .from(customerEntity)
+                .fetch();
+
+        CustomerResponse lee = result.get(0);
+        Assertions.assertEquals("lee", lee.getName());
     }
 }

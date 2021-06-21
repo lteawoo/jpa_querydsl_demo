@@ -6,14 +6,26 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class CustomerResponse {
     private Long seq;
     private String name;
     private Integer age;
+
+    public void setName(String name) {
+        log.info("set name: " + name);
+        this.name = name;
+    }
+
+    public void setAge(Integer age) {
+        log.info("set age: " + age);
+        this.age = age;
+    }
 
     @Builder
     public CustomerResponse(
