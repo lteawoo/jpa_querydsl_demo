@@ -1,5 +1,6 @@
 package kr.taeu.jpaquerydsldemo.customer.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import kr.taeu.jpaquerydsldemo.customer.domain.CustomerEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,6 +25,15 @@ public class CustomerResponse {
 
     public void setAge(Integer age) {
         log.info("set age: " + age);
+        this.age = age;
+    }
+
+    @QueryProjection
+    public CustomerResponse(
+            String name,
+            Integer age) {
+        log.info("use constructor");
+        this.name = name;
         this.age = age;
     }
 

@@ -9,6 +9,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.taeu.jpaquerydsldemo.customer.domain.CustomerEntity;
 import kr.taeu.jpaquerydsldemo.customer.dto.CustomerResponse;
+import kr.taeu.jpaquerydsldemo.customer.dto.QCustomerResponse;
 import kr.taeu.jpaquerydsldemo.customer.repository.CustomerRepository;
 import kr.taeu.jpaquerydsldemo.order.domain.OrderEntity;
 import kr.taeu.jpaquerydsldemo.order.repository.OrderRepository;
@@ -290,6 +291,33 @@ public class CustomerTest {
         List<CustomerResponse> result = jpaQueryFactory
                 .select(Projections.fields(
                         CustomerResponse.class,
+                        customerEntity.name,
+                        customerEntity.age))
+                .from(customerEntity)
+                .fetch();
+
+        CustomerResponse lee = result.get(0);
+        Assertions.assertEquals("lee", lee.getName());
+    }
+
+    @Test
+    public void constructor() {
+        List<CustomerResponse> result = jpaQueryFactory
+                .select(Projections.constructor(
+                        CustomerResponse.class,
+                        customerEntity.name,
+                        customerEntity.age))
+                .from(customerEntity)
+                .fetch();
+
+        CustomerResponse lee = result.get(0);
+        Assertions.assertEquals("lee", lee.getName());
+    }
+
+    @Test
+    public void queryProjection() {
+        List<CustomerResponse> result = jpaQueryFactory
+                .select(new QCustomerResponse(
                         customerEntity.name,
                         customerEntity.age))
                 .from(customerEntity)
